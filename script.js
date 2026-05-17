@@ -55,9 +55,9 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (err) {
             // Provide more specific error messages
             if (err.message.includes('Failed to fetch')) {
-                showError('Network error: Unable to reach the image generation service. Please check your internet connection and try again.');
+                showError('Network error: Unable to reach the image generation service. The service may be temporarily unavailable or blocking requests. Please try again later.');
             } else if (err.message.includes('invalid response format')) {
-                showError('Service error: The image generation service returned an unexpected response. This may be temporary - please try again.');
+                showError('Service error: The image generation service returned an unexpected response (possibly a challenge page). This service may require browser verification or may be temporarily unavailable.');
             } else {
                 showError('Failed to generate image: ' + err.message);
             }
