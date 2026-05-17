@@ -26,15 +26,21 @@ document.addEventListener('DOMContentLoaded', function() {
         try {
             // API endpoint with parameters
             const apiUrl = 'https://gold-newt-367030.hostingersite.com/nano.php?' +
-                          new URLSearchParams({
-                              key: 'USAGIWK',
-                              prompt: prompt
-                          });
+                           new URLSearchParams({
+                               key: 'USAGIWK',
+                               prompt: prompt
+                           });
 
             const response = await fetch(apiUrl);
             
             if (!response.ok) {
                 throw new Error(`API request failed with status ${response.status}`);
+            }
+
+            // Check if response is JSON
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                throw new Error('API returned invalid response format (expected JSON)');
             }
 
             const data = await response.json();
@@ -47,7 +53,14 @@ document.addEventListener('DOMContentLoaded', function() {
             
             resultDiv.classList.remove('hidden');
         } catch (err) {
-            showError('Failed to generate image: ' + err.message);
+            // Provide more specific error messages
+            if (err.message.includes('Failed to fetch')) {
+                showError('Network error: Unable to reach the image generation service. Please check your internet connection and try again.');
+            } else if (err.message.includes('invalid response format')) {
+                showError('Service error: The image generation service returned an unexpected response. This may be temporary - please try again.');
+            } else {
+                showError('Failed to generate image: ' + err.message);
+            }
         } finally {
             // Re-enable button and hide loading
             generateBtn.disabled = false;
