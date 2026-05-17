@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nano Banana Image Generator</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🍌 Nano Banana Image Generator</h1>
+        <div class="form-group">
+            <label for="prompt">Enter your image prompt:</label>
+            <textarea id="prompt" rows="4" placeholder="e.g., Hyper-realistic BMW M5 performing an aggressive drift..."></textarea>
+        </div>
+        <button id="generateBtn">Generate Image</button>
+        <div id="loading" class="loading hidden">
+            <div class="spinner"></div>
+            <p>Generating your image...</p>
+        </div>
+        <div id="result" class="hidden">
+            <h2>Generated Image:</h2>
+            <div class="image-container">
+                <img id="generatedImage" alt="Generated image" />
+            </div>
+            <div class="image-info">
+                <p><strong>Prompt:</strong> <span id="displayPrompt"></span></p>
+                <p><strong>Time taken:</strong> <span id="timeTaken"></span></p>
+                <a id="downloadLink" href="#" download>Download Image</a>
+            </div>
+        </div>
+        <div id="error" class="error hidden"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
