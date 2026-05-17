@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', function() {
         errorDiv.classList.add('hidden');
 
         try {
-            // API endpoint with parameters
-            const apiUrl = 'https://gold-newt-367030.hostingersite.com/nano.php?' +
+            // API endpoint with parameters - using our proxy to avoid CORS/issues
+            const apiUrl = '/api/proxy.php?' +
                            new URLSearchParams({
                                key: 'USAGIWK',
                                prompt: prompt
@@ -55,9 +55,11 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (err) {
             // Provide more specific error messages
             if (err.message.includes('Failed to fetch')) {
-                showError('Network error: Unable to reach the image generation service. The service may be temporarily unavailable or blocking requests. Please try again later.');
+                showError('Network error: Unable to reach the image generation service. The service may be blocking requests from this environment.');
             } else if (err.message.includes('invalid response format')) {
-                showError('Service error: The image generation service returned an unexpected response (possibly a challenge page). This service may require browser verification or may be temporarily unavailable.');
+                showError('Service error: The image generation service returned an unexpected response (possibly a security challenge). This service may require browser verification or may be temporarily unavailable for programmatic access.');
+            } else if (err.message.includes('403')) {
+                showError('Access forbidden: The image generation service is blocking requests. This may be due to security measures or rate limiting. Please try again later.');
             } else {
                 showError('Failed to generate image: ' + err.message);
             }
